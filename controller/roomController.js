@@ -1,4 +1,4 @@
-const { Train, Room, Chair } = require('../model/model')
+const { Train, Room, Ticket } = require('../model/model')
 
 const roomController = {
     //add a room
@@ -29,7 +29,7 @@ const roomController = {
     //get a room
     getAroom: async (req, res) => {
         try {
-            const room = await Room.findById(req.params.id).populate("chairs")
+            const room = await Room.findById(req.params.id).populate(["ticket","train"])
             res.status(200).json(room)
         } catch (error) {
             res.status(500).json(error); //HTTP REQUEST CODE
@@ -39,7 +39,7 @@ const roomController = {
     //get a room by roomNumber and kind
     getAroomByRoomNumberAndKind: async (req, res) => {
         try {
-            const room = await Room.findOne({ roomNumber: req.params.roomNumber, kind: req.params.kind }).populate("chairs")
+            const room = await Room.findOne({ roomNumber: req.params.roomNumber, kind: req.params.kind }).populate("ticket")
             if (room) {
                 res.status(200).json(room)
             } else {
@@ -67,7 +67,7 @@ const roomController = {
                 { rooms: req.params.id },
                 { $pull: { rooms: req.params.id } }
             )
-            await Chair.updateMany(
+            await Ticket.updateMany(
                 {rooms:req.params.id},
                 {rooms:null}
             )

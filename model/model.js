@@ -45,33 +45,45 @@ const roomSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Train"
     },
-    chairs: [
+    ticket: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Chair"
+            ref: "Ticket"
         }
     ]
 })
 
 //Chair : xong
-const chairSchema = new mongoose.Schema({
-    numberChair: {
-        type: Number,
-        require: true,
-    },
-    kind: {
+// const chairSchema = new mongoose.Schema({
+//     numberChair: {
+//         type: Number,
+//         require: true,
+//     },
+//     kind: {
+//         type: String,
+//         require: true,
+//     },
+//     state: {
+//         type: Boolean,
+//         require: true,
+//     },
+//     // fk cua room
+//     rooms:
+//     {
+//         type: mongoose.Schema.Types.ObjectId,
+//         ref: "Room"
+//     },
+//     ticket: [{
+//         type: mongoose.Schema.Types.ObjectId,
+//         ref: "Ticket"
+//     }]
+// })
+
+// station
+const stationSchema = new mongoose.Schema({
+    NameStation: {
         type: String,
         require: true,
-    },
-    state: {
-        type: Boolean,
-        require: true,
-    },
-    // fk cua room
-    rooms:
-    {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Room"
     },
     ticket: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -81,13 +93,17 @@ const chairSchema = new mongoose.Schema({
 
 //ticket :xong
 const ticketSchema = new mongoose.Schema({
-    from: {
-        type: String,
-        require: true,
+    from:{
+        type:String,
+        require:true,
     },
-    to: {
+    to:{
+        type:String,
+        require:true,
+    },
+    id: {
         type: String,
-        require: true,
+        
     },
     departure: {
         type: String,
@@ -118,21 +134,34 @@ const ticketSchema = new mongoose.Schema({
         type: Number,
         require: true,
     },
-    //fk cua chair
-    chairs:
+    numberChair: {
+        type: Number,
+        require: true,
+    },
+    kind: {
+        type: String,
+        require: true,
+    },
+    state: {
+        type: Boolean,
+        require: true,
+    },
+    //fk cua rooms
+    rooms:
     {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Chair"
+        ref: "Room"
+    },
+    //fk cua station
+    station:
+    {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Station"
     },
     customer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Customer"
     }
-    // cart
-    // cart: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "Cart"
-    // }
 })
 
 //cart
@@ -204,9 +233,10 @@ const customerSchema = new mongoose.Schema({
 
 let Train = mongoose.model("Train", trainSchema)
 let Room = mongoose.model("Room", roomSchema)
-let Chair = mongoose.model("Chair", chairSchema)
 let Ticket = mongoose.model("Ticket", ticketSchema)
-// let Cart = mongoose.model("Cart", cartSchema)
 let Customer = mongoose.model("Customer", customerSchema)
+let Station = mongoose.model("Station", stationSchema)
+// let Cart = mongoose.model("Cart", cartSchema)
+// let Chair = mongoose.model("Chair", chairSchema)
 
-module.exports = { Train, Room, Chair, Ticket, Customer }
+module.exports = { Train, Room, Ticket, Customer, Station }

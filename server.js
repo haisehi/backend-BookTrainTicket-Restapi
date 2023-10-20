@@ -8,10 +8,11 @@ const dotenv = require('dotenv');
 //routes
 const trainRoutes = require('./routes/train')
 const roomRoutes = require('./routes/room')
-const chairRoutes = require('./routes/chair')
 const ticketsRoutes = require('./routes/ticket')
-// const cartRoutes = require('./routes/cart')
 const customersRoutes = require('./routes/customer')
+const StationRoutes = require('./routes/Station')
+// const cartRoutes = require('./routes/cart')
+// const chairRoutes = require('./routes/chair')
 
 //CONNECT DATABASE MONGODB (mongodb@4.0)
 dotenv.config()
@@ -36,10 +37,11 @@ app.use(morgan("common"))
 //ROUTES
 app.use("/v1/train" ,trainRoutes)
 app.use("/v1/room" ,roomRoutes)
-app.use("/v1/chair" ,chairRoutes)
 app.use("/v1/ticket",ticketsRoutes)
-// app.use("/v1/cart",cartRoutes)
 app.use("/v1/customer",customersRoutes)
+app.use("/v1/station",StationRoutes)
+// app.use("/v1/chair" ,chairRoutes)
+// app.use("/v1/cart",cartRoutes)
 
 //port : 8000
 app.listen(8000, () => {

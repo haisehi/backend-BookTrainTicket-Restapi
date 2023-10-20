@@ -1,4 +1,4 @@
-const { Chair , Ticket, Customer } = require('../model/model')
+const { Room , Ticket, Customer } = require('../model/model')
 
 const ticketController ={
     //add ticket
@@ -6,9 +6,9 @@ const ticketController ={
         try {
             const newTicket = new Ticket(req.body);
             const saveTicket = await newTicket.save();
-            if (req.body.chairs) {
-                const chairs = await Chair.findById(req.body.chairs);
-                await chairs.updateOne({ $push: { ticket: saveTicket._id } });
+            if (req.body.rooms) {
+                const rooms = await Room.findById(req.body.rooms);
+                await rooms.updateOne({ $push: { ticket: saveTicket._id } });
             }
             res.status(200).json(saveTicket);
         } catch (err) {
@@ -27,7 +27,7 @@ const ticketController ={
     //get a ticket
     getATicket:async(req,res)=>{
         try {
-            const ticket = await Ticket.findById(req.params.id).populate(["chairs","customer"])
+            const ticket = await Ticket.findById(req.params.id).populate(["rooms","customer"])
             res.status(200).json(ticket)
         } catch (error) {
             res.status(500).json(error); //HTTP REQUEST CODE
@@ -36,7 +36,7 @@ const ticketController ={
     //get a room by from to time
     getRoomByFromandTo:async(req,res)=>{
         try {
-            const ticket = await Ticket.findOne({ from: req.params.from, to: req.params.to }).populate("chairs")
+            const ticket = await Ticket.findOne({ from: req.params.from, to: req.params.to }).populate("rooms")
             if (ticket) {
                 res.status(200).json(ticket)
             } else {
@@ -59,7 +59,7 @@ const ticketController ={
     //delete a ticket
     deleteticket:async(req,res) => {
         try {
-            await Chair.updateMany(
+            await Room.updateMany(
                 { ticket: req.params.id },
                 { $pull: { ticket: req.params.id } }
             )
@@ -70,7 +70,7 @@ const ticketController ={
             await Ticket.findByIdAndDelete(req.params.id)
             res.status(200).json("Delete successfully")
         } catch (error) {
-            res.status(500).jon(error)
+            res.status(500).json(error)
         }
     }
 
