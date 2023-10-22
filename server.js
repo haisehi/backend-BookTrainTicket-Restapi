@@ -15,7 +15,8 @@ const ticketsRoutes = require('./routes/ticket')
 const customersRoutes = require('./routes/customer')
 const StationRoutes = require('./routes/Station')
 //jwt admin
-const authRoutes = require('./routes/auth')
+const authRoutes = require('./routes/JWTadminRoutes/auth')
+const userRoutes = require('./routes/JWTadminRoutes/user')
 // const cartRoutes = require('./routes/cart')
 // const chairRoutes = require('./routes/chair')
 
@@ -51,7 +52,8 @@ app.use("/v1/station", StationRoutes)
 // app.use("/v1/chair" ,chairRoutes)
 // app.use("/v1/cart",cartRoutes)
 //jwt
-app.use("/v1/auth",authRoutes)
+app.use("/v1/auth", authRoutes)
+app.use("/v1/user", userRoutes)
 
 //port : 8000
 app.listen(8000, () => {
@@ -60,3 +62,4 @@ app.listen(8000, () => {
 
 //authentication : so sánh username và password của người dùng nhập vào với username và password trên database
 //authorization :chức năng phân quyền
+//Json web token : xác thực người dùng
