@@ -1,8 +1,8 @@
-const { Room , Ticket, Customer } = require('../model/model')
+const { Room, Ticket, Customer } = require('../model/model')
 
-const ticketController ={
+const ticketController = {
     //add ticket
-    addticket:async(req,res)=>{
+    addticket: async (req, res) => {
         try {
             const newTicket = new Ticket(req.body);
             const saveTicket = await newTicket.save();
@@ -13,10 +13,11 @@ const ticketController ={
             res.status(200).json(saveTicket);
         } catch (err) {
             res.status(500).json(err); //HTTP REQUEST CODE
+            console.log(err);
         }
     },
     //get all ticket
-    getAllTicket:async(req,res)=>{
+    getAllTicket: async (req, res) => {
         try {
             const allTicket = await Ticket.find()
             res.status(200).json(allTicket)
@@ -25,29 +26,85 @@ const ticketController ={
         }
     },
     //get a ticket
-    getATicket:async(req,res)=>{
+    getATicket: async (req, res) => {
         try {
-            const ticket = await Ticket.findById(req.params.id).populate(["rooms","customer"])
+            const ticket = await Ticket.findById(req.params.id).populate(["rooms", "customer"])
             res.status(200).json(ticket)
         } catch (error) {
             res.status(500).json(error); //HTTP REQUEST CODE
         }
     },
     //get a room by from to time
-    getRoomByFromandTo:async(req,res)=>{
+    // getRoomByFromandTo: async (req, res) => {
+    //     try {
+    //         const ticket = await Ticket.findOne({ from: req.params.from, to: req.params.to }).populate("rooms")
+    //         if (ticket) {
+    //             res.status(200).json(ticket)
+    //         } else {
+    //             res.status(404).json({ message: "Ticket not found" });
+    //         }
+    //     } catch (error) {
+    //         res.status(500).json(error); //HTTP REQUEST CODE
+    //         console.log(error);
+    //     }
+    // },
+
+    getRoomByFromandTo: async (req, res) => {
         try {
-            const ticket = await Ticket.findOne({ from: req.params.from, to: req.params.to }).populate("rooms")
+            const ticket = await Ticket.findOne({ from: req.params.from, to: req.params.to }).populate({
+                path: 'rooms',
+                populate: {
+                    path: 'train',
+                    model: 'Train',
+                    select: 'train'
+                }
+            });
+
             if (ticket) {
-                res.status(200).json(ticket)
+                const room = ticket.rooms;
+                const trainName = room.nameTrain;
+
+                const response = {
+                    _id: ticket._id,
+                    from: ticket.from,
+                    to: ticket.to,
+                    departure: ticket.departure,
+                    return: ticket.return,
+                    timeGodeparture: ticket.timeGodeparture,
+                    timeTodeparture: ticket.timeTodeparture,
+                    timeGoreturn: ticket.timeGoreturn,
+                    timeToreturn: ticket.timeToreturn,
+                    ticketType: ticket.ticketType,
+                    price: ticket.price,
+                    numberChair: ticket.numberChair,
+                    kind: ticket.kind,
+                    state: ticket.state,
+                    rooms: {
+                        _id: room._id,
+                        roomNumber: room.roomNumber,
+                        countChair: room.countChair,
+                        kind: room.kind,
+                        train: {
+                            train: trainName
+                        }
+                    }
+                };
+
+                res.status(200).json(response);
             } else {
                 res.status(404).json({ message: "Ticket not found" });
             }
         } catch (error) {
-            res.status(500).json(error); //HTTP REQUEST CODE
+            res.status(500).json(error);
+            console.log(error);
         }
     },
+
+
+
+
     //update a ticket
-    updateAticket:async(req,res)=>{
+    updateAticket: async (req, res) => {
         try {
             const ticket = await Ticket.findById(req.params.id)
             await ticket.updateOne({ $set: req.body })
@@ -57,7 +114,7 @@ const ticketController ={
         }
     },
     //delete a ticket
-    deleteticket:async(req,res) => {
+    deleteticket: async (req, res) => {
         try {
             await Room.updateMany(
                 { ticket: req.params.id },

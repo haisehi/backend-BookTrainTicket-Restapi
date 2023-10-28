@@ -15,6 +15,10 @@ router.get("/:id",ticketController.getATicket)
 //get a ticket by 
 router.get("/:from/:to",ticketController.getRoomByFromandTo)
 
+// Chỉnh sửa route để lấy thông tin vé và tàu
+// router.get("/:from/:to", ticketController.getTicketAndTrainByFromAndTo);
+
+
 //update a ticket
 router.put("/:id",ticketController.updateAticket)
 

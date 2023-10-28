@@ -2,30 +2,31 @@ const jwt = require("jsonwebtoken")
 
 const middlewareController = {
     //verify token
-    verifyToken:(req,res,next) => {
+    verifyToken: (req, res, next) => {
         const token = req.headers.token; // lấy token từ người dùng
-        if(token){
+        if (token) {
             //bearer 123456
             const accessToken = token.split(" ")[1];
-            jwt.verify(accessToken, process.env.JWT_ACCESS_KEY,(err,user) => {
-                if(err){
+            jwt.verify(accessToken, process.env.JWT_ACCESS_KEY, (err, user) => {
+                if (err) {
                     res.status(403).json("Token is not valid")
                 }
                 req.user = user;
                 next()
             });
         }
-        else{
-            res.status(401).json("You are not authenticated")
+        else {
+            // res.status(401).json("You are not authenticated") //HTTP. Lỗi ::1 - - [24/Oct/2023:14:35:45 +0000] "GET /socketcluster/ HTTP/1.1" 404 153
+            return next(); //// Cho phép yêu cầu không gửi token
         }
     },
 
-    verifyTokenAndAdminAuth:(req,res,next)=>{
-        middlewareController.verifyToken(req,res,()=>{
-            if(req.user.id == req.params.id || req.user.admin){
+    verifyTokenAndAdminAuth: (req, res, next) => {
+        middlewareController.verifyToken(req, res, () => {
+            if (req.user.id == req.params.id || req.user.admin) {
                 next();
             }
-            else{
+            else {
                 res.status(403).json("You are not allowed delete other")
             }
         })

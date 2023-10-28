@@ -46,7 +46,7 @@ app.use(express.json())
 //ROUTES
 app.use("/v1/train", trainRoutes)
 app.use("/v1/room", roomRoutes)
-app.use("/v1/ticket", ticketsRoutes)
+app.use("/v1/tickets", ticketsRoutes)
 app.use("/v1/customer", customersRoutes)
 app.use("/v1/station", StationRoutes)
 // app.use("/v1/chair" ,chairRoutes)

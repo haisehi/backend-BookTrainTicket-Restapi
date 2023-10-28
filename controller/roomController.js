@@ -13,6 +13,7 @@ const roomController = {
             res.status(200).json(saveRoom);
         } catch (err) {
             res.status(500).json(err); //HTTP REQUEST CODE
+            console.log(err)
         }
     },
 

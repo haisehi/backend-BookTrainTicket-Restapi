@@ -1,13 +1,5 @@
 const mongoose = require('mongoose');
 
-/*
-    1 tàu có nhiều khoan
-    1 khoan có nhiều ghế
-    1 ghế có nhiều vé (khác ngày)
-    1 giỏ hàng có 1 hoặc nhiều vé
-    0 hoặc nhiều khách hàng có 1 giỏ hàng
-*/
-
 //train : xong
 const trainSchema = new mongoose.Schema({
     train: {
@@ -40,6 +32,10 @@ const roomSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
+    nameTrain:{
+        type:String,
+        require: true,
+    },
     // fk cua train
     train: {
         type: mongoose.Schema.Types.ObjectId,
@@ -52,32 +48,6 @@ const roomSchema = new mongoose.Schema({
         }
     ]
 })
-
-//Chair : xong
-// const chairSchema = new mongoose.Schema({
-//     numberChair: {
-//         type: Number,
-//         require: true,
-//     },
-//     kind: {
-//         type: String,
-//         require: true,
-//     },
-//     state: {
-//         type: Boolean,
-//         require: true,
-//     },
-//     // fk cua room
-//     rooms:
-//     {
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: "Room"
-//     },
-//     ticket: [{
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: "Ticket"
-//     }]
-// })
 
 // station
 const stationSchema = new mongoose.Schema({
@@ -93,17 +63,13 @@ const stationSchema = new mongoose.Schema({
 
 //ticket :xong
 const ticketSchema = new mongoose.Schema({
-    from:{
-        type:String,
-        require:true,
-    },
-    to:{
-        type:String,
-        require:true,
-    },
-    id: {
+    from: {
         type: String,
-        
+        require: true,
+    },
+    to: {
+        type: String,
+        require: true,
     },
     departure: {
         type: String,
@@ -151,12 +117,6 @@ const ticketSchema = new mongoose.Schema({
     {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Room"
-    },
-    //fk cua station
-    station:
-    {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Station"
     },
     customer: {
         type: mongoose.Schema.Types.ObjectId,
