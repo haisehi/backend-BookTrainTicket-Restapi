@@ -9,14 +9,14 @@ const middlewareController = {
             const accessToken = token.split(" ")[1];
             jwt.verify(accessToken, process.env.JWT_ACCESS_KEY, (err, user) => {
                 if (err) {
-                    res.status(403).json("Token is not valid")
+                    return res.status(403).json("Token is not valid")
                 }
                 req.user = user;
                 next()
-            });
+            }); 
         }
         else {
-            // res.status(401).json("You are not authenticated") //HTTP. Lỗi ::1 - - [24/Oct/2023:14:35:45 +0000] "GET /socketcluster/ HTTP/1.1" 404 153
+            //return res.status(401).json("You are not authenticated") //HTTP. Lỗi ::1 - - [24/Oct/2023:14:35:45 +0000] "GET /socketcluster/ HTTP/1.1" 404 153
             return next(); //// Cho phép yêu cầu không gửi token
         }
     },
@@ -27,7 +27,7 @@ const middlewareController = {
                 next();
             }
             else {
-                res.status(403).json("You are not allowed delete other")
+                return res.status(403).json("You are not allowed delete other")
             }
         })
     }
