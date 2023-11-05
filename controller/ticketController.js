@@ -34,20 +34,6 @@ const ticketController = {
             res.status(500).json(error); //HTTP REQUEST CODE
         }
     },
-    //get a room by from to time
-    // getRoomByFromandTo: async (req, res) => {
-    //     try {
-    //         const ticket = await Ticket.findOne({ from: req.params.from, to: req.params.to }).populate("rooms")
-    //         if (ticket) {
-    //             res.status(200).json(ticket)
-    //         } else {
-    //             res.status(404).json({ message: "Ticket not found" });
-    //         }
-    //     } catch (error) {
-    //         res.status(500).json(error); //HTTP REQUEST CODE
-    //         console.log(error);
-    //     }
-    // },
 
     getRoomByFromandTo: async (req, res) => {
         try {
@@ -100,9 +86,6 @@ const ticketController = {
         }
     },
 
-
-
-
     //update a ticket
     updateAticket: async (req, res) => {
         try {
@@ -129,7 +112,18 @@ const ticketController = {
         } catch (error) {
             res.status(500).json(error)
         }
-    }
+    },
+    // Thêm hàm xử lý tải lên ảnh
+    uploadImage: (req, res) => {
+        if (req.file) {
+            res.status(200).json({
+                message: 'Image uploaded successfully',
+                imageUrl: req.file.path
+            });
+        } else {
+            res.status(400).json({ message: 'Image upload failed' });
+        }
+    },
 
 }
 

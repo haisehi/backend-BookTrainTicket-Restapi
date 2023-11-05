@@ -8,6 +8,8 @@ const dotenv = require('dotenv');
 //auth jwt
 const cookieParser = require('cookie-parser');
 
+const path = require('path');
+
 //routes
 const trainRoutes = require('./routes/train')
 const roomRoutes = require('./routes/room')
@@ -41,7 +43,7 @@ const corsOptions = {
   origin: "http://localhost:3000", //địa chỉ của FE
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
-}; 
+};
 app.use(cors(corsOptions));
 app.use(morgan("common"))
 //auth jwt
@@ -59,7 +61,8 @@ app.use("/v1/station", StationRoutes)
 //jwt
 app.use("/v1/auth", authRoutes)
 app.use("/v1/user", userRoutes)
-
+// Sử dụng tệp tĩnh để phục vụ ảnh
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 //port : 8000
 app.listen(8000, () => {
   console.log('Server is running on port 8000')

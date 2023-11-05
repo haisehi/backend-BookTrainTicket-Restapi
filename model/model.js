@@ -32,8 +32,8 @@ const roomSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
-    nameTrain:{
-        type:String,
+    nameTrain: {
+        type: String,
         require: true,
     },
     // fk cua train
@@ -55,7 +55,7 @@ const stationSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
-    address:{
+    address: {
         type: String,
         require: true,
     },
@@ -116,42 +116,45 @@ const ticketSchema = new mongoose.Schema({
         type: Boolean,
         require: true,
     },
+    img: {
+        type: String, // Kiểu dữ liệu là String để lưu trữ đường dẫn tệp ảnh
+    },
     //fk cua rooms
     rooms:
     {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Room"
     },
+    //customer
+    customer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Customer"
+    },
+    //cart
+    cart: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Cart"
+        }
+    ]
+})
+
+//cart
+const cartSchema = new mongoose.Schema({
+    //fk cua ticket
+    ticket: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Ticket"
+        }
+    ],
+    //fk cua customer
     customer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Customer"
     }
+
 })
-
-//cart
-// const cartSchema = new mongoose.Schema({
-//     countPrice: {
-//         type: Number,
-//         require: true,
-//     },
-//     paymethod: {
-//         type: String,
-//         require: true,
-//     },
-//     //fk cua ticket
-//     ticket: [
-//         {
-//             type: mongoose.Schema.Types.ObjectId,
-//             ref: "Ticket"
-//         }
-//     ],
-//     //fk cua customer
-//     customer: {
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: "Customer"
-//     }
-
-// })
 
 const customerSchema = new mongoose.Schema({
     name: {
@@ -185,12 +188,12 @@ const customerSchema = new mongoose.Schema({
     ticket: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Ticket"
-    }]
+    }],
     // cart
-    // cart: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "Cart"
-    // }
+    cart: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Cart"
+    }
 })
 
 
@@ -200,7 +203,7 @@ let Room = mongoose.model("Room", roomSchema)
 let Ticket = mongoose.model("Ticket", ticketSchema)
 let Customer = mongoose.model("Customer", customerSchema)
 let Station = mongoose.model("Station", stationSchema)
-// let Cart = mongoose.model("Cart", cartSchema)
-// let Chair = mongoose.model("Chair", chairSchema)
+let Cart = mongoose.model("Cart", cartSchema)
 
-module.exports = { Train, Room, Ticket, Customer, Station }
+
+module.exports = { Train, Room, Ticket, Customer, Station, Cart }

@@ -1,22 +1,19 @@
+const express = require('express');
 const ticketController = require('../controller/ticketController')
-
+const upload = require('../controller/upload');
 
 const router = require('express').Router()
-
 //Add ticket
-router.post("/",ticketController.addticket)
-
+router.post("/",ticketController.addticket,)
 //get all ticket
 router.get("/",ticketController.getAllTicket)
-
 //get a ticket
 router.get("/:id",ticketController.getATicket)
-
 //get a ticket by 
 router.get("/:from/:to",ticketController.getRoomByFromandTo)
 
-// Chỉnh sửa route để lấy thông tin vé và tàu
-// router.get("/:from/:to", ticketController.getTicketAndTrainByFromAndTo);
+// Định nghĩa API endpoint để tải lên ảnh
+router.post('/upload-image', upload.single('img'), ticketController.uploadImage);
 
 
 //update a ticket
