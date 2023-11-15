@@ -10,7 +10,7 @@ router.get("/",ticketController.getAllTicket)
 //get a ticket
 router.get("/:id",ticketController.getATicket)
 //get a ticket by 
-router.get("/:from/:to",ticketController.getRoomByFromandTo)
+router.get("/:from/:to/:departure/:return",ticketController.getRoomByFromandTo)
 
 // Định nghĩa API endpoint để tải lên ảnh
 router.post('/upload-image', upload.single('img'), ticketController.uploadImage);

@@ -37,7 +37,7 @@ const ticketController = {
 
     getRoomByFromandTo: async (req, res) => {
         try {
-            const ticket = await Ticket.findOne({ from: req.params.from, to: req.params.to }).populate({
+            const ticket = await Ticket.findOne({ from: req.params.from, to: req.params.to, departure:req.params.departure ,return:req.params.return }).populate({
                 path: 'rooms',
                 populate: {
                     path: 'train',
