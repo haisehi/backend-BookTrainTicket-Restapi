@@ -148,11 +148,6 @@ const cartSchema = new mongoose.Schema({
             ref: "Ticket"
         }
     ],
-    //fk cua customer
-    customer: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Customer"
-    }
 
 })
 
@@ -189,11 +184,6 @@ const customerSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Ticket"
     }],
-    // cart
-    cart: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Cart"
-    }
 })
 
 

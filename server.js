@@ -19,8 +19,8 @@ const StationRoutes = require('./routes/Station')
 //jwt admin
 const authRoutes = require('./routes/JWTadminRoutes/auth')
 const userRoutes = require('./routes/JWTadminRoutes/user')
-// const cartRoutes = require('./routes/cart')
-// const chairRoutes = require('./routes/chair')
+const cartRoutes = require('./routes/cart')
+
 
 //CONNECT DATABASE MONGODB (mongodb@4.0)
 dotenv.config()
@@ -56,8 +56,7 @@ app.use("/v1/room", roomRoutes)
 app.use("/v1/tickets", ticketsRoutes)
 app.use("/v1/customer", customersRoutes)
 app.use("/v1/station", StationRoutes)
-// app.use("/v1/chair" ,chairRoutes)
-// app.use("/v1/cart",cartRoutes)
+app.use("/v1/cart",cartRoutes)
 //jwt
 app.use("/v1/auth", authRoutes)
 app.use("/v1/user", userRoutes)

@@ -1,11 +1,10 @@
-const {Cart,Customer,Ticket} = require('../model/model')
+const { Cart, Ticket } = require('../model/model');
 
 const cartController = {
-    //add cart
-    // addcart:async(req,res)=>{
+    // Thêm vé vào giỏ hàng
+    addTicketToCart: async (req, res) => {
 
-    // },
-    
+    }
 }
 
-module.exports = cartController
+module.exports = cartController;

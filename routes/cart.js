@@ -1,20 +1,8 @@
-// const cartController = require('../controller/cartController')
+const cartController = require('../controller/cartController');
+const router = require('express').Router();
 
-// const router = require('express').Router()
+// Thêm vé vào giỏ hàng
+router.post('/', cartController.addTicketToCart);
+// Xóa vé khỏi giỏ hàng
 
-//Add cart
-// router.post("/",cartController.addcart)
-
-// //get all cart
-// router.get("/",cartController.getAllcart)
-
-// //get a cart
-// router.get("/:id",cartController.getAcart)
-
-// //update a cart
-// router.put("/:id",cartController.updateAcart)
-
-// //delete a cart
-// router.delete("/:id",cartController.deletecart)
-
-// module.exports = router
+module.exports = router;
