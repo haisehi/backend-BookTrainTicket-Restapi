@@ -139,7 +139,7 @@ const ticketSchema = new mongoose.Schema({
     ]
 })
 
-//cart
+// cart
 const cartSchema = new mongoose.Schema({
     //fk cua ticket
     ticket: [

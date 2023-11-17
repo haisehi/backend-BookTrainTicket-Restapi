@@ -34,10 +34,10 @@ const ticketController = {
             res.status(500).json(error); //HTTP REQUEST CODE
         }
     },
-
+    //find ticket
     getRoomByFromandTo: async (req, res) => {
         try {
-            const ticket = await Ticket.findOne({ from: req.params.from, to: req.params.to, departure:req.params.departure ,return:req.params.return }).populate({
+            const ticket = await Ticket.findOne({ from: req.params.from, to: req.params.to, departure: req.params.departure, return: req.params.return }).populate({
                 path: 'rooms',
                 populate: {
                     path: 'train',
@@ -45,11 +45,9 @@ const ticketController = {
                     select: 'train'
                 }
             });
-
             if (ticket) {
                 const room = ticket.rooms;
                 const trainName = room.nameTrain;
-
                 const response = {
                     _id: ticket._id,
                     from: ticket.from,
@@ -75,7 +73,6 @@ const ticketController = {
                         }
                     }
                 };
-
                 res.status(200).json(response);
             } else {
                 res.status(404).json({ message: "Ticket not found" });
@@ -85,7 +82,6 @@ const ticketController = {
             console.log(error);
         }
     },
-
     //update a ticket
     updateAticket: async (req, res) => {
         try {
@@ -124,6 +120,17 @@ const ticketController = {
             res.status(400).json({ message: 'Image upload failed' });
         }
     },
+    // Thêm hàm xử lý cập nhật trạng thái state của vé
+    updateTicketState :async (req, res) => {
+        try {
+            const ticket = await Ticket.findById(req.params.id);
+            await ticket.updateOne({ state: req.body.state });
+
+            res.status(200).json({ message: 'Ticket state updated successfully.' });
+        } catch (error) {
+            res.status(500).json({ message: 'Error updating ticket state.' });
+        }
+    }
 
 }
 
