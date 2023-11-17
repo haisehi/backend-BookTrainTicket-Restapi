@@ -18,11 +18,13 @@ const roomRoutes = require('./routes/room')
 const ticketsRoutes = require('./routes/ticket')
 const customersRoutes = require('./routes/customer')
 const StationRoutes = require('./routes/Station')
-// const cartRoutes = require('./routes/cart')
-//jwt admin
+//jwt admin routes
 const authRoutes = require('./routes/JWTadminRoutes/auth')
 const userRoutes = require('./routes/JWTadminRoutes/user')
+// JWT account user routes
+const accUserRoutes = require('./routes/JWTadminRoutes/accUser')
 
+// ----------------------------------------------------------------
 
 //CONNECT DATABASE MONGODB (mongodb@4.0)
 dotenv.config()
@@ -69,10 +71,11 @@ app.use("/v1/room", roomRoutes)
 app.use("/v1/tickets", ticketsRoutes)
 app.use("/v1/customer", customersRoutes)
 app.use("/v1/station", StationRoutes)
-// app.use("/v1/cart",cartRoutes)
-//jwt routes
+//jwt admin routes
 app.use("/v1/auth", authRoutes)
 app.use("/v1/user", userRoutes)
+//JWT account user routes
+app.use("/v1/accUser", accUserRoutes)
 // Sử dụng tệp tĩnh để phục vụ ảnh
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

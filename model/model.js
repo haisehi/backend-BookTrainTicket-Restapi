@@ -130,7 +130,7 @@ const ticketSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Customer"
     },
-    //cart
+    //cart : xoá sau
     cart: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -139,18 +139,7 @@ const ticketSchema = new mongoose.Schema({
     ]
 })
 
-// cart
-const cartSchema = new mongoose.Schema({
-    //fk cua ticket
-    ticket: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Ticket"
-        }
-    ],
-
-})
-
+//customer shipping
 const customerSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -180,11 +169,45 @@ const customerSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
+    //fk ticket
     ticket: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Ticket"
     }],
+    //fk account customer
+    accUser: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "AccUser"
+    },
 })
+
+//account user
+const accUserSchema = new mongoose.Schema({
+    userName: {
+        type: String,
+        required: true,
+        minlength: 6,
+        maxlength: 20,
+        unique: true
+    },
+    email: {
+        type: String,
+        required: true,
+        minlength: 10,
+        maxlength: 50,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true,
+        minlength: 6,
+    },
+    admin: {
+        type: Boolean,
+        default: false,
+    }
+}, { timestamps: true }
+)
 
 
 
@@ -193,7 +216,6 @@ let Room = mongoose.model("Room", roomSchema)
 let Ticket = mongoose.model("Ticket", ticketSchema)
 let Customer = mongoose.model("Customer", customerSchema)
 let Station = mongoose.model("Station", stationSchema)
-let Cart = mongoose.model("Cart", cartSchema)
+let AccUser = mongoose.model("AccUser", accUserSchema)
 
-
-module.exports = { Train, Room, Ticket, Customer, Station, Cart }
+module.exports = { Train, Room, Ticket, Customer, Station, AccUser }
