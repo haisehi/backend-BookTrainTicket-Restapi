@@ -1,4 +1,4 @@
-const {AccUser} = require("../../model/model")
+const { AccUser, Customer } = require("../../model/model")
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { token } = require("morgan")
@@ -20,8 +20,13 @@ const authController = {
                 password: hashed,
             });
             //lưu vào database
-            const accUser = await newUser.save();
-            res.status(200).json(accUser)
+            const SaveAccUser = await newUser.save();
+            if (req.body.customer) {
+                const customer = await Customer.findById(req.body.customer);
+                await customer.updateOne({ $push: { accUser: SaveAccUser._id } });
+            }
+
+            res.status(200).json(SaveAccUser)
         } catch (error) {
             console.log(error);
             res.status(500).json(error);
@@ -34,7 +39,7 @@ const authController = {
             admin: user.admin,
         },
             process.env.JWT_ACCESS_KEY,
-            { expiresIn: "20s" }
+            { expiresIn: "30d" }
         );
     },
     //Generate refresh token
@@ -91,7 +96,7 @@ const authController = {
         const refreshToken = req.cookies.refreshToken
         // res.status(200).json(refreshToken);
         if (!refreshToken) return res.status(401).json("You are not authenticated");
-        if(!refreshTokens.includes(refreshToken)){ //kiểm tra refreshToken có ở trong refreshTokens không
+        if (!refreshTokens.includes(refreshToken)) { //kiểm tra refreshToken có ở trong refreshTokens không
             return res.status(403).json("refresh token is not valid")
         }
         //xác nhận xem refresh token có đúng hay không
@@ -99,7 +104,7 @@ const authController = {
             if (err) {
                 console.log(err);
             }
-            refreshTokens = refreshTokens.filter((token)=>token !== refreshToken) //lọc token cũ ra nếu có token mới
+            refreshTokens = refreshTokens.filter((token) => token !== refreshToken) //lọc token cũ ra nếu có token mới
             //create new access token and refresh token
             const newAccessToken = authController.generateAccessToken(user)
             const newRefreshToken = authController.generateRefreshToken(user)
@@ -111,11 +116,11 @@ const authController = {
                 path: "/",
                 sameSite: "strict",
             });
-            res.status(200).json({accessToken:newAccessToken})
+            res.status(200).json({ accessToken: newAccessToken })
         })
     },
     //logout user
-    logoutUser:async(req,res) => {
+    logoutUser: async (req, res) => {
         //làm refresh token biến mất đi
         res.clearCookie("refreshToken")
         refreshTokens = refreshTokens.filter(token => token !== req.cookies.refreshToken)

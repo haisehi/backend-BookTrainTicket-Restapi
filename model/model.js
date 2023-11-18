@@ -130,13 +130,7 @@ const ticketSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Customer"
     },
-    //cart : xoá sau
-    cart: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Cart"
-        }
-    ]
+
 })
 
 //customer shipping
@@ -205,7 +199,15 @@ const accUserSchema = new mongoose.Schema({
     admin: {
         type: Boolean,
         default: false,
-    }
+    },
+    //customer
+    customer: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Customer"
+        }
+    ],
+
 }, { timestamps: true }
 )
 

@@ -49,6 +49,7 @@ const io = socketIo(server, {
     origin: 'http://localhost:3000', // Điều này là origin của ứng dụng React của bạn
     methods: ['GET', 'POST'],
     credentials: true,
+    optionSuccessStatus: 200,
   },
 });
 

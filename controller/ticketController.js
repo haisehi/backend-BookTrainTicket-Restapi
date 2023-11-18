@@ -10,6 +10,10 @@ const ticketController = {
                 const rooms = await Room.findById(req.body.rooms);
                 await rooms.updateOne({ $push: { ticket: saveTicket._id } });
             }
+            if (req.body.customer) {
+                const customer = await Customer.findById(req.body.customer);
+                await customer.updateOne({ $push: { ticket: saveTicket._id } });
+            }
             res.status(200).json(saveTicket);
         } catch (err) {
             res.status(500).json(err); //HTTP REQUEST CODE

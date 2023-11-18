@@ -1,4 +1,4 @@
-const {Ticket, Customer } = require('../model/model')
+const {Ticket, Customer,AccUser } = require('../model/model')
 
 const customerController ={
     //add ticket
@@ -10,9 +10,14 @@ const customerController ={
                 const ticket = await Ticket.findById(req.body.ticket);
                 await ticket.updateOne({ $push: { customer: saveCustomer._id } });
             }
+            if (req.body.accUser) {
+                const accUser = await AccUser.findById(req.body.accUser);
+                await accUser.updateOne({ $push: { customer: saveCustomer._id } });
+            }
             res.status(200).json(saveCustomer);
         } catch (err) {
             res.status(500).json(err); //HTTP REQUEST CODE
+            console.log(err);
         }
     },
     //get all ticket
@@ -49,6 +54,10 @@ const customerController ={
             await Ticket.updateMany(
                 {customer:req.params.id},
                 {customer:null}
+            ),
+            await AccUser.updateMany(
+                { customer: req.params.id },
+                { $pull: { customer: req.params.id } }
             )
             await Customer.findByIdAndDelete(req.params.id)
             res.status(200).json("Delete successfully")
