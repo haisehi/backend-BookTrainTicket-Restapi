@@ -57,6 +57,22 @@ const customerController = {
             res.status(500).json({ message: 'Internal Server Error' });
         }
     },
+
+    //get a information about the customer by ID card number
+    getShippingByIDCard: async (req, res) => {
+        const { CMND } = req.params;  // Corrected this line
+        try {
+            // Find the customer with the given CMND
+            const customer = await Customer.findOne({ CMND }).populate('ticket');
+            if (!customer) {
+                return res.status(404).json({ message: 'Customer not found for the provided CMND' });
+            }
+            res.status(200).json(customer);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal Server Error' });
+        }
+    },
     //update a ticket
     updateACustomer: async (req, res) => {
         try {
