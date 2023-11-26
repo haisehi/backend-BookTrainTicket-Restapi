@@ -1,8 +1,8 @@
-const {Ticket, Customer,AccUser } = require('../model/model')
+const { Ticket, Customer, AccUser } = require('../model/model')
 
-const customerController ={
+const customerController = {
     //add ticket
-    addCustomert:async(req,res)=>{
+    addCustomert: async (req, res) => {
         try {
             const newCustomer = new Customer(req.body);
             const saveCustomer = await newCustomer.save();
@@ -21,7 +21,7 @@ const customerController ={
         }
     },
     //get all ticket
-    getAllCustomer:async(req,res)=>{
+    getAllCustomer: async (req, res) => {
         try {
             const allCustomer = await Customer.find()
             res.status(200).json(allCustomer)
@@ -30,7 +30,7 @@ const customerController ={
         }
     },
     //get a ticket
-    getACustomer:async(req,res)=>{
+    getACustomer: async (req, res) => {
         try {
             const customer = await Customer.findById(req.params.id).populate("ticket")
             res.status(200).json(customer)
@@ -38,8 +38,27 @@ const customerController ={
             res.status(500).json(error); //HTTP REQUEST CODE
         }
     },
+    //get ticket by id customer
+
+    getCustomerByAccUser: async (req, res) => {
+        const { accUserId } = req.params;
+
+        try {
+            // Find the customer with the given accUser ID
+            const customer = await Customer.findOne({ accUser: accUserId }).populate('ticket');
+
+            if (!customer) {
+                return res.status(404).json({ message: 'Customer not found for the provided accUser ID' });
+            }
+
+            res.status(200).json(customer);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal Server Error' });
+        }
+    },
     //update a ticket
-    updateACustomer:async(req,res)=>{
+    updateACustomer: async (req, res) => {
         try {
             const customer = await Customer.findById(req.params.id)
             await customer.updateOne({ $set: req.body })
@@ -49,19 +68,20 @@ const customerController ={
         }
     },
     //delete a ticket
-    deleteCustomer:async(req,res) => {
+    deleteCustomer: async (req, res) => {
         try {
             await Ticket.updateMany(
-                {customer:req.params.id},
-                {customer:null}
-            ),
-            await AccUser.updateMany(
                 { customer: req.params.id },
-                { $pull: { customer: req.params.id } }
-            )
+                { customer: "" }
+            ),
+                await AccUser.updateMany(
+                    { customer: req.params.id },
+                    { $pull: { customer: req.params.id } }
+                )
             await Customer.findByIdAndDelete(req.params.id)
             res.status(200).json("Delete successfully")
         } catch (error) {
+            console.log(error)
             res.status(500).jon(error)
         }
     }

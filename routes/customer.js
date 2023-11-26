@@ -11,6 +11,9 @@ router.get("/",customerController.getAllCustomer)
 //get a customer
 router.get("/:id",customerController.getACustomer)
 
+// Get a customer by accUser ID
+router.get('/by-accuser/:accUserId', customerController.getCustomerByAccUser);
+
 //update a customer
 router.put("/:id",customerController.updateACustomer)
 
