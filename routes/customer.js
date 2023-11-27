@@ -12,7 +12,7 @@ router.get("/",customerController.getAllCustomer)
 router.get("/:id",customerController.getACustomer)
 
 // Get a customer by accUser ID
-router.get('/by-accuser/:accUserId', customerController.getCustomerByAccUser);
+router.get('/by-accuser/:accUserId', customerController.getAllCustomersByAccUser);
 
 router.get('/by-idCard/:CMND', customerController.getShippingByIDCard);
 

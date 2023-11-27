@@ -38,41 +38,43 @@ const customerController = {
             res.status(500).json(error); //HTTP REQUEST CODE
         }
     },
-    //get ticket by id customer
 
-    getCustomerByAccUser: async (req, res) => {
+    //get all tickets by accUserId
+    getAllCustomersByAccUser: async (req, res) => {
         const { accUserId } = req.params;
 
         try {
-            // Find the customer with the given accUser ID
-            const customer = await Customer.findOne({ accUser: accUserId }).populate('ticket');
+            // Find all customers with the given accUser ID
+            const customers = await Customer.find({ accUser: accUserId }).populate('ticket');
 
-            if (!customer) {
-                return res.status(404).json({ message: 'Customer not found for the provided accUser ID' });
+            if (!customers || customers.length === 0) {
+                return res.status(404).json({ message: 'Customers not found for the provided accUser ID' });
             }
 
-            res.status(200).json(customer);
+            res.status(200).json(customers);
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Internal Server Error' });
         }
     },
+
 
     //get a information about the customer by ID card number
     getShippingByIDCard: async (req, res) => {
-        const { CMND } = req.params;  // Corrected this line
+        const { CMND } = req.params;
         try {
-            // Find the customer with the given CMND
-            const customer = await Customer.findOne({ CMND }).populate('ticket');
-            if (!customer) {
-                return res.status(404).json({ message: 'Customer not found for the provided CMND' });
+            // Find all customers with the given CMND
+            const customers = await Customer.find({ CMND }).populate('ticket');
+            if (!customers || customers.length === 0) {
+                return res.status(404).json({ message: 'Customers not found for the provided CMND' });
             }
-            res.status(200).json(customer);
+            res.status(200).json(customers);
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Internal Server Error' });
         }
     },
+    
     //update a ticket
     updateACustomer: async (req, res) => {
         try {
