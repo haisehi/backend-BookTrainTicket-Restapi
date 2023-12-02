@@ -1,5 +1,20 @@
 const mongoose = require('mongoose');
 
+
+const scheduleContent = new mongoose.Schema({
+    title: {
+        type: String,
+        require: true,
+    },
+    content: {
+        type: String,
+        require: true
+    },
+    Imagecontent: {
+        type: String,
+    }
+})
+
 //train : xong
 const trainSchema = new mongoose.Schema({
     train: {
@@ -49,7 +64,7 @@ const roomSchema = new mongoose.Schema({
     ]
 })
 
-// station
+// station :xong
 const stationSchema = new mongoose.Schema({
     NameStation: {
         type: String,
@@ -133,7 +148,7 @@ const ticketSchema = new mongoose.Schema({
 
 })
 
-//customer shipping
+//customer shipping ;xong
 const customerSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -176,7 +191,7 @@ const customerSchema = new mongoose.Schema({
 }, { timestamps: true }
 )
 
-//account user
+//account user :xong
 const accUserSchema = new mongoose.Schema({
     userName: {
         type: String,
@@ -213,7 +228,7 @@ const accUserSchema = new mongoose.Schema({
 )
 
 
-
+let ScheduleContent = mongoose.model("Content", scheduleContent)
 let Train = mongoose.model("Train", trainSchema)
 let Room = mongoose.model("Room", roomSchema)
 let Ticket = mongoose.model("Ticket", ticketSchema)
@@ -221,4 +236,4 @@ let Customer = mongoose.model("Customer", customerSchema)
 let Station = mongoose.model("Station", stationSchema)
 let AccUser = mongoose.model("AccUser", accUserSchema)
 
-module.exports = { Train, Room, Ticket, Customer, Station, AccUser }
+module.exports = { Train, Room, Ticket, Customer, Station, AccUser,ScheduleContent }
