@@ -59,7 +59,7 @@ const server = http.createServer(app);
 app.use(bodyParser.json({ limit: "50mb" }))
 // Đoạn mã trên cho phép truy cập từ origin http://localhost:3000 và bật credentials (cần cho các request có chứa cookie).
 const corsOptions = {
-  origin: `${apiFE}`, //địa chỉ của FE
+  origin: apiFE, //địa chỉ của FE
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
