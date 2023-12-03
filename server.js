@@ -46,14 +46,14 @@ mongoose
 // socketIO
 const apiFE = process.env.API_URL_FE
 const server = http.createServer(app);
-const io = socketIo(server, {
-  cors: {
-    origin: `${apiFE}`, // Điều này là origin của ứng dụng React của bạn
-    methods: ['GET', 'POST'],
-    credentials: true,
-    optionSuccessStatus: 200,
-  },
-});
+// const io = socketIo(server, {
+//   cors: {
+//     origin: `${apiFE}`, // Điều này là origin của ứng dụng React của bạn
+//     methods: ['GET', 'POST'],
+//     credentials: true,
+//     optionSuccessStatus: 200,
+//   },
+// });
 
 
 app.use(bodyParser.json({ limit: "50mb" }))
@@ -84,16 +84,16 @@ app.use("/v1/accUser", accUserRoutes)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // connect socket
-io.on('connection', (socket) => {
-  console.log('A user connected');
+// io.on('connection', (socket) => {
+//   console.log('A user connected');
 
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
-});
+//   socket.on('disconnect', () => {
+//     console.log('User disconnected');
+//   });
+// });
 const port = process.env.PORT
 // Sử dụng server thay vì app.listen
-server.listen(port, '0.0.0.0', () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Server is running on port ${port}`);
 });
 
