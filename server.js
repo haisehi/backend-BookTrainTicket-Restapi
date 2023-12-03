@@ -59,13 +59,13 @@ const server = http.createServer(app);
 app.use(bodyParser.json({ limit: "50mb" }))
 // Đoạn mã trên cho phép truy cập từ origin http://localhost:3000 và bật credentials (cần cho các request có chứa cookie).
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: apiFE,
   credentials: true,
   optionSuccessStatus: 200,
 };
 // Middleware CORS
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Origin', apiFE);
   res.header('Access-Control-Allow-Credentials', true);
   next();
 });
