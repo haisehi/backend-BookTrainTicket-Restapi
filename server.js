@@ -44,10 +44,11 @@ mongoose
   });
 
 // socketIO
+const apiFE = process.env.API_URL_FE
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: 'http://localhost:3000', // Điều này là origin của ứng dụng React của bạn
+    origin: `${apiFE}`, // Điều này là origin của ứng dụng React của bạn
     methods: ['GET', 'POST'],
     credentials: true,
     optionSuccessStatus: 200,
@@ -58,7 +59,7 @@ const io = socketIo(server, {
 app.use(bodyParser.json({ limit: "50mb" }))
 // Đoạn mã trên cho phép truy cập từ origin http://localhost:3000 và bật credentials (cần cho các request có chứa cookie).
 const corsOptions = {
-  origin: "http://localhost:3000", //địa chỉ của FE
+  origin: `${apiFE}`, //địa chỉ của FE
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
@@ -90,10 +91,10 @@ io.on('connection', (socket) => {
     console.log('User disconnected');
   });
 });
-
+const port = process.env.PORT
 // Sử dụng server thay vì app.listen
-server.listen(8000, '0.0.0.0', () => {
-  console.log('Server is running on port 8000');
+server.listen(port, '0.0.0.0', () => {
+  console.log(`Server is running on port ${port}`);
 });
 
 //authentication : so sánh username và password của người dùng nhập vào với username và password trên database
