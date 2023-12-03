@@ -82,6 +82,7 @@ const authController = {
             }
         } catch (error) {
             res.status(500).json(error);
+            console.log(error);
         }
     },
     //dùng redis để lưu refresh token
